@@ -32,6 +32,26 @@ DiagramWindow::DiagramWindow()
     updateActions();
 }
 
+void DiagramWindow::newFile()
+{
+	QMessageBox::information(this,"Information",tr("unimplemented"));
+}
+
+void DiagramWindow::open()
+{
+	QMessageBox::information(this,"Information",tr("unimplemented"));
+}
+
+bool DiagramWindow::save()
+{
+	QMessageBox::information(this,"Information",tr("unimplemented"));
+}
+
+bool DiagramWindow::saveAs()
+{
+	QMessageBox::information(this,"Information",tr("unimplemented"));
+}
+
 void DiagramWindow::addNode()
 {
     Node *node = new Node;
@@ -155,6 +175,29 @@ void DiagramWindow::updateActions()
 
 void DiagramWindow::createActions()
 {
+    newAction = new QAction(tr("&New"), this);
+    newAction->setIcon(QIcon(":/images/new.png"));
+    newAction->setShortcut(QKeySequence::New);
+    newAction->setStatusTip(tr("Create a new spreadsheet file"));
+    connect(newAction, SIGNAL(triggered()), this, SLOT(newFile()));
+
+    openAction = new QAction(tr("&Open..."), this);
+    openAction->setIcon(QIcon(":/images/open.png"));
+    openAction->setShortcut(QKeySequence::Open);
+    openAction->setStatusTip(tr("Open an existing spreadsheet file"));
+    connect(openAction, SIGNAL(triggered()), this, SLOT(open()));
+
+    saveAction = new QAction(tr("&Save"), this);
+    saveAction->setIcon(QIcon(":/images/save.png"));
+    saveAction->setShortcut(QKeySequence::Save);
+    saveAction->setStatusTip(tr("Save the spreadsheet to disk"));
+    connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
+
+    saveAsAction = new QAction(tr("Save &As..."), this);
+    saveAsAction->setStatusTip(tr("Save the spreadsheet under a new "
+                                  "name"));
+    connect(saveAsAction, SIGNAL(triggered()), this, SLOT(saveAs()));
+
     exitAction = new QAction(tr("E&xit"), this);
     exitAction->setShortcut(tr("Ctrl+Q"));
     connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
@@ -207,6 +250,10 @@ void DiagramWindow::createActions()
 void DiagramWindow::createMenus()
 {
     fileMenu = menuBar()->addMenu(tr("&File"));
+    fileMenu->addAction(newAction);
+    fileMenu->addAction(openAction);
+    fileMenu->addAction(saveAction);
+    fileMenu->addAction(saveAsAction);
     fileMenu->addAction(exitAction);
 
     editMenu = menuBar()->addMenu(tr("&Edit"));
@@ -226,6 +273,11 @@ void DiagramWindow::createMenus()
 
 void DiagramWindow::createToolBars()
 {
+    fileToolBar = addToolBar(tr("&File"));
+    fileToolBar->addAction(newAction);
+    fileToolBar->addAction(openAction);
+    fileToolBar->addAction(saveAction);
+
     editToolBar = addToolBar(tr("Edit"));
     editToolBar->addAction(addNodeAction);
     editToolBar->addAction(addLinkAction);

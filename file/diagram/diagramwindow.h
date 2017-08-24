@@ -19,6 +19,10 @@ public:
     DiagramWindow();
 
 private slots:
+    void newFile();
+    void open();
+    bool save();
+    bool saveAs();
     void addNode();
     void addLink();
     void del();
@@ -45,6 +49,11 @@ private:
     QMenu *fileMenu;
     QMenu *editMenu;
     QToolBar *editToolBar;
+    QToolBar *fileToolBar;
+    QAction *newAction;
+    QAction *openAction;
+    QAction *saveAction;
+    QAction *saveAsAction;
     QAction *exitAction;
     QAction *addNodeAction;
     QAction *addLinkAction;
@@ -55,6 +64,7 @@ private:
     QAction *bringToFrontAction;
     QAction *sendToBackAction;
     QAction *propertiesAction;
+
 
     QGraphicsScene *scene;
     QGraphicsView *view;

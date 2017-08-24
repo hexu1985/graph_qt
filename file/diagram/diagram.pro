@@ -8,6 +8,7 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 QT += widgets
+CONFIG += c++11
 
 # Input
 HEADERS += diagramwindow.h link.h node.h propertiesdialog.h

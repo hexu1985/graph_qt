@@ -49,6 +49,11 @@ void DiagramWindow::addLink()
     scene->addItem(link);
 }
 
+void DiagramWindow::turnRoundLink()
+{
+    QMessageBox::information(this,"Information",tr("unimplemented"));
+}
+
 void DiagramWindow::del()
 {
     QList<QGraphicsItem *> items = scene->selectedItems();
@@ -135,10 +140,12 @@ void DiagramWindow::updateActions()
     bool hasSelection = !scene->selectedItems().isEmpty();
     bool isNode = (selectedNode() != 0);
     bool isNodePair = (selectedNodePair() != NodePair());
+    bool isLink = (selectedLink() != 0);
 
     cutAction->setEnabled(isNode);
     copyAction->setEnabled(isNode);
     addLinkAction->setEnabled(isNodePair);
+    turnRoundLinkAction->setEnabled(isLink);
     deleteAction->setEnabled(hasSelection);
     bringToFrontAction->setEnabled(isNode);
     sendToBackAction->setEnabled(isNode);
@@ -168,6 +175,11 @@ void DiagramWindow::createActions()
     addLinkAction->setIcon(QIcon(":/images/link.png"));
     addLinkAction->setShortcut(tr("Ctrl+L"));
     connect(addLinkAction, SIGNAL(triggered()), this, SLOT(addLink()));
+
+    turnRoundLinkAction = new QAction(tr("&Turn Round Link"), this);
+    turnRoundLinkAction->setIcon(QIcon(":/images/turnroundlink.png"));
+    connect(turnRoundLinkAction, SIGNAL(triggered()),
+            this, SLOT(turnRoundLink()));
 
     deleteAction = new QAction(tr("&Delete"), this);
     deleteAction->setIcon(QIcon(":/images/delete.png"));
@@ -212,6 +224,7 @@ void DiagramWindow::createMenus()
     editMenu = menuBar()->addMenu(tr("&Edit"));
     editMenu->addAction(addNodeAction);
     editMenu->addAction(addLinkAction);
+    editMenu->addAction(turnRoundLinkAction);
     editMenu->addAction(deleteAction);
     editMenu->addSeparator();
     editMenu->addAction(cutAction);
@@ -229,6 +242,7 @@ void DiagramWindow::createToolBars()
     editToolBar = addToolBar(tr("Edit"));
     editToolBar->addAction(addNodeAction);
     editToolBar->addAction(addLinkAction);
+    editToolBar->addAction(turnRoundLinkAction);
     editToolBar->addAction(deleteAction);
     editToolBar->addSeparator();
     editToolBar->addAction(cutAction);

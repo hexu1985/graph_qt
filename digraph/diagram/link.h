@@ -21,6 +21,9 @@ public:
 
     void paint(QPainter *painter,
                const QStyleOptionGraphicsItem *option, QWidget *widget);
+
+    void turnRound();
+
 private:
     Node *myFromNode;
     Node *myToNode;

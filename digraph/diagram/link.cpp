@@ -1,4 +1,5 @@
 #include <QtWidgets>
+#include <utility>
 
 #include "link.h"
 #include "node.h"
@@ -47,6 +48,11 @@ QColor Link::color() const
 void Link::trackNodes()
 {
     setLine(QLineF(myFromNode->pos(), myToNode->pos()));
+}
+
+void Link::turnRound()
+{
+    std::swap(myFromNode, myToNode);
 }
 
 namespace {

@@ -51,7 +51,11 @@ void DiagramWindow::addLink()
 
 void DiagramWindow::turnRoundLink()
 {
-    QMessageBox::information(this,"Information",tr("unimplemented"));
+    Link *link = selectedLink();
+    if (link) {
+        link->turnRound();
+        link->trackNodes();
+    }
 }
 
 void DiagramWindow::del()

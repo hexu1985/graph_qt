@@ -39,17 +39,20 @@ void DiagramWindow::newFile()
 
 void DiagramWindow::open()
 {
-	QMessageBox::information(this,"Information",tr("unimplemented"));
+    QString filepath = QFileDialog::getOpenFileName(this, "open", "/", "all(*.*)");
+	QMessageBox::information(this,"Information",filepath);
 }
 
 bool DiagramWindow::save()
 {
 	QMessageBox::information(this,"Information",tr("unimplemented"));
+    return true;
 }
 
 bool DiagramWindow::saveAs()
 {
 	QMessageBox::information(this,"Information",tr("unimplemented"));
+    return true;
 }
 
 void DiagramWindow::addNode()

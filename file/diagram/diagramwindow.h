@@ -34,6 +34,8 @@ private slots:
     void properties();
     void updateActions();
 
+    bool saveFile(const QString &fileName);
+
 private:
     typedef QPair<Node *, Node *> NodePair;
 
@@ -72,6 +74,7 @@ private:
     int minZ;
     int maxZ;
     int seqNumber;
+    QString curFile;
 };
 
 #endif

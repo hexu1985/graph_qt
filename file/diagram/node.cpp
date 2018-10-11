@@ -3,8 +3,25 @@
 #include "link.h"
 #include "node.h"
 
+int Node::currentMaxIndex = 0;
+
 Node::Node()
 {
+    myIndex = ++currentMaxIndex;
+
+    myTextColor = Qt::darkGreen;
+    myOutlineColor = Qt::darkBlue;
+    myBackgroundColor = Qt::white;
+
+    setFlags(ItemIsMovable | ItemIsSelectable);
+}
+
+Node::Node(int index)
+{
+    myIndex = index;
+    if (myIndex > currentMaxIndex)
+        currentMaxIndex = myIndex;
+
     myTextColor = Qt::darkGreen;
     myOutlineColor = Qt::darkBlue;
     myBackgroundColor = Qt::white;
@@ -23,6 +40,11 @@ void Node::setText(const QString &text)
     prepareGeometryChange();
     myText = text;
     update();
+}
+
+int Node::index() const
+{
+    return myIndex;
 }
 
 QString Node::text() const

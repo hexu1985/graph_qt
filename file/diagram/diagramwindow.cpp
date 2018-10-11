@@ -1,4 +1,5 @@
 #include <QtWidgets>
+#include <fstream>
 
 #include "diagramwindow.h"
 #include "link.h"
@@ -39,20 +40,35 @@ void DiagramWindow::newFile()
 
 void DiagramWindow::open()
 {
-    QString filepath = QFileDialog::getOpenFileName(this, "open", "/", "all(*.*)");
+    QString filepath = QFileDialog::getOpenFileName(this, "open", ".", "all(*.*)");
 	QMessageBox::information(this,"Information",filepath);
 }
 
 bool DiagramWindow::save()
 {
-	QMessageBox::information(this,"Information",tr("unimplemented"));
-    return true;
+    if (curFile.isEmpty()) {
+        return saveAs();
+    } else {
+        return saveFile(curFile);
+    }
 }
 
 bool DiagramWindow::saveAs()
 {
-	QMessageBox::information(this,"Information",tr("unimplemented"));
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                    tr("Save diagram"), ".",
+                                    tr("Diagram files (*.diag)"));
+    if (fileName.isEmpty())
+        return false;
+
+    return saveFile(fileName);
+
     return true;
+}
+
+bool DiagramWindow::saveFile(const QString &fileName)
+{
+    return false;
 }
 
 void DiagramWindow::addNode()

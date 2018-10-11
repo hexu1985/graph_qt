@@ -5,6 +5,7 @@
 #include <QColor>
 #include <QGraphicsItem>
 #include <QSet>
+#include "json11.hpp"
 
 class Link;
 
@@ -14,8 +15,10 @@ class Node : public QGraphicsItem
 
 public:
     Node();
+    Node(int index);
     ~Node();
 
+    int index() const;
     void setText(const QString &text);
     QString text() const;
     void setTextColor(const QColor &color);
@@ -33,6 +36,9 @@ public:
     void paint(QPainter *painter,
                const QStyleOptionGraphicsItem *option, QWidget *widget);
 
+    static Node *fromJson(json11::Json json);
+    json11::Json toJson();
+
 protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     QVariant itemChange(GraphicsItemChange change,
@@ -47,6 +53,9 @@ private:
     QColor myTextColor;
     QColor myBackgroundColor;
     QColor myOutlineColor;
+    int myIndex;
+
+    static int currentMaxIndex;
 };
 
 #endif

@@ -14,7 +14,6 @@ class Node : public QGraphicsItem
     Q_DECLARE_TR_FUNCTIONS(Node)
 
 public:
-    Node();
     Node(int index);
     ~Node();
 
@@ -36,7 +35,7 @@ public:
     void paint(QPainter *painter,
                const QStyleOptionGraphicsItem *option, QWidget *widget);
 
-    static Node *fromJson(json11::Json json);
+    static Node *newFromJson(json11::Json json);
     json11::Json toJson();
 
 protected:
@@ -54,8 +53,6 @@ private:
     QColor myBackgroundColor;
     QColor myOutlineColor;
     int myIndex;
-
-    static int currentMaxIndex;
 };
 
 #endif

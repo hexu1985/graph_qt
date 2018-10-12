@@ -2,6 +2,7 @@
 #define LINK_H
 
 #include <QGraphicsLineItem>
+#include "json11.hpp"
 
 class Node;
 
@@ -18,6 +19,9 @@ public:
     QColor color() const;
 
     void trackNodes();
+
+    static Link *newFromJson(json11::Json json, const std::map<int, Node *> &nodeList);
+    json11::Json toJson();
 
 private:
     Node *myFromNode;

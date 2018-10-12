@@ -3,6 +3,10 @@
 
 #include <QMainWindow>
 #include <QPair>
+#include <set>
+#include <map>
+#include <string>
+#include "json11.hpp"
 
 class QAction;
 class QGraphicsItem;
@@ -17,6 +21,9 @@ class DiagramWindow : public QMainWindow
 
 public:
     DiagramWindow();
+
+protected:
+    void closeEvent(QCloseEvent *event);
 
 private slots:
     void newFile();
@@ -34,8 +41,6 @@ private slots:
     void properties();
     void updateActions();
 
-    bool saveFile(const QString &fileName);
-
 private:
     typedef QPair<Node *, Node *> NodePair;
 
@@ -43,10 +48,20 @@ private:
     void createMenus();
     void createToolBars();
     void setZValue(int z);
-    void setupNode(Node *node);
+    void setupNode(Node *node, bool autoPos);
     Node *selectedNode() const;
     Link *selectedLink() const;
     NodePair selectedNodePair() const;
+
+    bool loadFile(const QString &fileName);
+    bool saveFile(const QString &fileName);
+    void setCurrentFile(const QString &fileName);
+    QString strippedName(const QString &fullFileName);
+    bool okToContinue();
+    json11::Json serializeToJson();
+    void clear();
+    bool deserializeFromJson(const std::string &str);
+    void setupLink(Link *link);
 
     QMenu *fileMenu;
     QMenu *editMenu;
@@ -67,7 +82,6 @@ private:
     QAction *sendToBackAction;
     QAction *propertiesAction;
 
-
     QGraphicsScene *scene;
     QGraphicsView *view;
 
@@ -75,6 +89,8 @@ private:
     int maxZ;
     int seqNumber;
     QString curFile;
+    std::set<Link *> linkList;
+    std::map<int, Node *> nodeList;
 };
 
 #endif

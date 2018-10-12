@@ -1,27 +1,12 @@
 #include <QtWidgets>
+#include <iostream>
 
 #include "link.h"
 #include "node.h"
 
-int Node::currentMaxIndex = 0;
-
-Node::Node()
-{
-    myIndex = ++currentMaxIndex;
-
-    myTextColor = Qt::darkGreen;
-    myOutlineColor = Qt::darkBlue;
-    myBackgroundColor = Qt::white;
-
-    setFlags(ItemIsMovable | ItemIsSelectable);
-}
-
 Node::Node(int index)
 {
     myIndex = index;
-    if (myIndex > currentMaxIndex)
-        currentMaxIndex = myIndex;
-
     myTextColor = Qt::darkGreen;
     myOutlineColor = Qt::darkBlue;
     myBackgroundColor = Qt::white;
@@ -163,4 +148,51 @@ int Node::roundness(double size) const
 {
     const int Diameter = 12;
     return 100 * Diameter / int(size);
+}
+
+json11::Json Node::toJson()
+{
+    using json11::Json;
+    Json obj = Json::object({
+        {"index", myIndex},
+        {"text", myText.toStdString()},
+        {"x", (int) this->x()},
+        {"y", (int) this->y()}
+    });
+
+    return obj;
+}
+
+Node *Node::newFromJson(json11::Json json)
+{
+    auto index = json["index"];
+    if (!index.is_number()) {
+        std::cerr << "invalid json of node, no index property\n";
+        return NULL;
+    }
+
+    auto text = json["text"];
+    if (!text.is_string()) {
+        std::cerr << "invalid json of node, no string property\n";
+        return NULL;
+    }
+
+    auto xPos = json["x"];
+    if (!xPos.is_number()) {
+        std::cerr << "invalid json of node, no x property\n";
+        return NULL;
+    }
+
+    auto yPos = json["y"];
+    if (!yPos.is_number()) {
+        std::cerr << "invalid json of node, no y property\n";
+        return NULL;
+    }
+
+    auto node = new Node(index.int_value());
+    node->setText(QString(text.string_value().c_str()));
+    node->setX(xPos.int_value());
+    node->setY(yPos.int_value());
+
+    return node;
 }
